@@ -1,0 +1,48 @@
+####################
+### AXUM 0.6.12  ###
+####################
+
+Beginning round 1...
+Benchmarking 400 connections @ http://app1.atrium.127.0.0.1.nip.io:8080 for 20 second(s)
+  Latencies:
+    Avg      Stdev    Min      Max      
+    6.22ms   3.05ms   0.11ms   42.15ms  
+  Requests:
+    Total: 1284717 Req/Sec: 64265.26
+  Transfer:
+    Total: 1.07 GB Transfer Rate: 54.73 MB/Sec
++ --------------- + --------------- +
+|   Percentile    |   Avg Latency   |
++ --------------- + --------------- +
+|      99.9%      |     21.88ms     |
+|       99%       |     16.50ms     |
+|       95%       |     13.52ms     |
+|       90%       |     12.25ms     |
+|       75%       |     10.39ms     |
+|       50%       |     8.64ms      |
++ --------------- + --------------- +
+
+####################
+### AXUM 0.6.15  ###
+####################
+
+Beginning round 1...
+Benchmarking 400 connections @ http://app1.atrium.127.0.0.1.nip.io:8080 for 20 second(s)
+  Latencies:
+    Avg      Stdev    Min      Max      
+    10.69ms  5.21ms   0.17ms   46.93ms  
+  Requests:
+    Total: 746991  Req/Sec: 37365.73
+  Transfer:
+    Total: 636.16 MB Transfer Rate: 31.82 MB/Sec
++ --------------- + --------------- +
+|   Percentile    |   Avg Latency   |
++ --------------- + --------------- +
+|      99.9%      |     34.64ms     |
+|       99%       |     28.70ms     |
+|       95%       |     23.61ms     |
+|       90%       |     21.22ms     |
+|       75%       |     17.81ms     |
+|       50%       |     14.78ms     |
++ --------------- + --------------- +
+

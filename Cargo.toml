@@ -1,0 +1,55 @@
+[package]
+name = "atrium"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+path = "src/main.rs"
+name = "atrium"
+
+[dependencies]
+anyhow = { default-features = false, version = "1.0" }
+async-stream = "0.3"
+async-walkdir = "0.2"
+axum = { version="=0.6.15", features = ["query", "json", "http2", "tokio", "headers"], default-features = false }
+axum-extra = { version = "0.7", features = ["cookie-private"], default-features = false }
+axum-server = "0.4.0"
+base64ct = { version = "1.5", features = ["alloc"]}
+chacha20poly1305 = { version = "0.10", features = ["stream"], default-features = false }
+chrono = { default-features = false, version = "0.4" }
+filetime = "0.2"
+futures = { default-features = false, version = "0.3" }
+futures-util = { default-features = false, version = "0.3" }
+headers = "0.3"
+http = "0.2"
+hyper = { version = "0.14", default-features = false }
+hyper-trust-dns = { version = "0.5", default-features = false, features = ["dns-over-https-rustls", "rustls-http2", "rustls-webpki"] }
+mime_guess = { default-features = false, version = "2.0" }
+once_cell = "1.17.0" # TO BE REMOVED WHEN ONCE CELL LANDS IN STD : https://github.com/rust-lang/rfcs/pull/2788
+percent-encoding = { default-features = false, version = "2.1" }
+rand= { default-features = false, version = "0.8" }
+reqwest = { version = "0.11", default-features = false, features = ["json", "rustls-tls","stream"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = { default-features = false, version = "1.0" }
+serde_yaml = "0.9"
+sha2 = { default-features = false, version = "0.10" }
+sysinfo = { default-features = false, version = "0.28" }
+time = { default-features = false, version = "0.3" }
+tokio = { version = "1.20", features = ["full"], default-features = false }
+tokio-stream = { version="0.1", default-features = false }
+tokio-util = { version = "0.7",  features = ["compat"], default-features = false }
+tower = { default-features = false, version = "0.4" }
+tower-http = { version = "0.4.0", features = ["fs"], default-features = false }
+trim-in-place = "0.1.7"
+urlencoding = "2.1"
+uuid = { version = "1.1", features = ["fast-rng", "v4"], default-features = false }
+
+[profile.release_optimized]
+inherits = "release"
+strip = true
+lto = true
+codegen-units = 1
+panic = "abort"

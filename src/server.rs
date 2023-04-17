@@ -2,7 +2,7 @@ use axum::{
     middleware,
     response::IntoResponse,
     routing::{delete, get, get_service, post},
-    Router,
+    Router, handler::Handler,
 };
 
 use http::StatusCode;
@@ -23,7 +23,7 @@ use crate::{
 };
 
 pub struct Server {
-    pub router: Router,
+    pub router: axum::routing::MethodRouter,
     pub port: u16,
 }
 
@@ -57,29 +57,24 @@ impl Server {
             .fallback_service(get_service(ServeDir::new("web")).handle_error(error_500))
             .with_state(state.clone());
 
-        let proxy_router = Router::new()
-            .fallback(proxy_handler)
-            .with_state(state.clone());
+        let proxy_router = proxy_handler.with_state(state.clone());
 
-        let dir_router = Router::new()
-            .fallback(dir_handler)
-            .with_state(state.clone());
+        let dir_router = dir_handler.with_state(state.clone());
 
-        let router = Router::new()
-            .fallback(
-                |hostype: Option<HostType>, request: Request<Body>| async move {
-                    match hostype {
-                        Some(HostType::StaticApp(_)) => dir_router.oneshot(request).await,
-                        Some(HostType::ReverseApp(_)) => proxy_router.oneshot(request).await,
-                        None => main_router.oneshot(request).await,
-                    }
-                },
-            )
-            .layer(middleware::from_fn_with_state(
-                state.clone(),
-                inject_security_headers,
-            ))
-            .with_state(state);
+        let router = axum::routing::any(
+            |hostype: Option<HostType>, request: Request<Body>| async move {
+                match hostype {
+                    Some(HostType::StaticApp(_)) => dir_router.oneshot(request).await,
+                    Some(HostType::ReverseApp(_)) => proxy_router.oneshot(request).await,
+                    None => main_router.oneshot(request).await,
+                }
+            },
+        )
+        .layer(middleware::from_fn_with_state(
+            state.clone(),
+            inject_security_headers,
+        ))
+        .with_state(state);
 
         Ok(Server { router, port: 8080 })
     }

@@ -59,3 +59,6 @@ axum_bench 0.6.12
 axum_bench 0.6.13
 axum_bench 0.6.14
 axum_bench 0.6.15
+axum_bench 0.6.12
+
+cat $REPORT_FILE
